@@ -46,6 +46,7 @@ class AppController extends Controller
         ]);
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
+            'finder' => 'auth',
             'authorize' => ['Controller'],
             'authenticate' => [
                 'Form' => [
@@ -64,7 +65,8 @@ class AppController extends Controller
             'logoutRedirect' => [
                 'controller' => 'Users',
                 'action' => 'login'
-            ]
+            ],
+            'unauthorizedRedirect' => $this->referer()
         ]);
 
         /*
@@ -74,7 +76,15 @@ class AppController extends Controller
         //$this->loadComponent('Security');
     }
 
+    public function beforeFilter(Event $event){
+        $this->set('current_user', $this->Auth->user());
+    }
     public function isAuthorized($user){
-        return true;
+        // Admin can access every action
+        if (isset($user['role']) && $user['role'] === 'admin') {
+            return true;
+        }
+        // Default deny
+        return false;
     }
 }

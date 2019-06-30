@@ -10,8 +10,6 @@
                 echo $this->Form->control('last_name', ['label' => 'Apellido']);
                 echo $this->Form->control('email', ['label' => 'Correo Electronico']);
                 echo $this->Form->control('password', ['label' => 'Contraseña']);
-                echo $this->Form->control('role', ['options' => ['admin' => 'Administrador', 'user' => 'Usuario'], 'label' => 'Rol']);
-                echo $this->Form->control('active' ,['label' => 'Activo']);
             ?>
         </fieldset>
         <?= $this->Form->button('Crear Usuario') ?>

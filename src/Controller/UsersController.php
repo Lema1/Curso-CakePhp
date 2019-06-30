@@ -11,6 +11,27 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+
+    public function beforeFilter(\Cake\Event\Event $event){
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
+
+    public function isAuthorized($user){
+        if (isset($user['role']) && $user['role'] === 'user') {
+            if ($this->request->getParam('action') === 'logout') {
+                return true;
+            }
+            if ($this->request->getParam('action') === 'home') {
+                return true;
+            }
+            if ($this->request->getParam('action') === 'view') {
+                return true;
+            }
+        }
+        return parent::isAuthorized($user);
+    }
+
     public function login()
     {
         if ($this->request->is('post')) {
@@ -46,10 +67,10 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($name)
+    public function view($id)
     {
-        echo "detalle ususario " . $name;
-        exit();
+        $user = $this->Users->get($id);
+        $this->set('user', $user);
     }
 
     /**
@@ -66,9 +87,12 @@ class UsersController extends AppController
 
             $user = $this->Users->patchEntity($user, $this->request->data);
 
+            $user->role = 'user';
+            $user->active = 1;
+
             if($this->Users->save($user)){
                 $this->Flash->success('Usuario creado corectamente');
-                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+                return $this->redirect(['controller' => 'Users', 'action' => 'login']);
             }
             else {
                 return $this->error('error al crear usuario');
