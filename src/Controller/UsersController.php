@@ -101,4 +101,22 @@ class UsersController extends AppController
 
         $this->set(compact('user'));
     }
+
+    public function edit($id = null){
+
+        $user = $this->Users->get($id);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success('El usuario ha sido modificado');
+                return $this->redirect(['action' => 'index']);
+            }
+            else {
+                $this->Flash->error('El usuario no pudo ser modificado');
+            }
+        }
+
+        $this->set(compact('user'));
+    }
 }
