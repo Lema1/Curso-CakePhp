@@ -41,7 +41,7 @@ class UsersController extends AppController
                 return $this->redirect($this->Auth->redirectUrl());
             }
             else {
-                $this->Flash->error('Datos Invalidos, por favor intente nuevamente', ['key' => 'auth']);
+                $this->Flash->error('Datos son invalidos, por favor intente nuevamente', ['key' => 'auth']);
             }
         }
     }
@@ -85,7 +85,7 @@ class UsersController extends AppController
         if($this->request->is('post')){
             //debug($this->request->data);
 
-            $user = $this->Users->patchEntity($user, $this->request->data);
+            $user = $this->Users->patchEntity($user, $this->request->getData());
 
             $user->role = 'user';
             $user->active = 1;
@@ -95,7 +95,7 @@ class UsersController extends AppController
                 return $this->redirect(['controller' => 'Users', 'action' => 'login']);
             }
             else {
-                return $this->error('error al crear usuario');
+                $this->Flash->error('El usuario no pudo ser creado. Por favor, intente nuevamente.');
             }
         }
 

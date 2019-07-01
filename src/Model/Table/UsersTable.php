@@ -45,6 +45,7 @@ class UsersTable extends Table
         ]);
     }
 
+
     /**
      * Default validation rules.
      *
@@ -54,35 +55,27 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmptyString('id', 'create');
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->notEmpty('id', 'create');
 
         $validator
-            ->scalar('first_name')
+            ->requirePresence('first_name', 'create')
             ->maxLength('first_name', 100)
-            ->requirePresence('first_name', 'create');
+            ->notEmpty('first_name', 'Rellene este campo');
 
         $validator
-            ->scalar('last_name')
+            ->requirePresence('last_name', 'create')
             ->maxLength('last_name', 100)
-            ->requirePresence('last_name', 'create');
+            ->notEmpty('last_name', 'Rellene este campo');
 
         $validator
-            ->email('email')
-            ->requirePresence('email', 'create');
+            ->add('email', 'valid', ['rule' => 'email', 'message' => 'Ingrese correo electronico valido'])
+            ->requirePresence('email', 'create')
+            ->notEmpty('email', 'Rellene este campo');
 
         $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->requirePresence('password', 'create');
-
-        $validator
-            ->scalar('role')
-            ->requirePresence('role', 'create');
-
-        $validator
-            ->boolean('active')
-            ->requirePresence('active', 'create');
+            ->requirePresence('password', 'create')
+            ->notEmpty('password_name', 'Rellene este campo');
 
         return $validator;
     }
