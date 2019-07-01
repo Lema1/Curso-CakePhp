@@ -77,10 +77,6 @@ class AppController extends Controller
     }
 
     public function beforeFilter(Event $event){
-        if (in_array($this->request->action, ['delete'])) {
-            $this->eventManager()->off($this->Csrf);
-        }
-
         $this->set('current_user', $this->Auth->user());
     }
     public function isAuthorized($user){

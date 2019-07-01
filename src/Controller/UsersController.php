@@ -28,6 +28,9 @@ class UsersController extends AppController
             if ($this->request->getParam('action') === 'view') {
                 return true;
             }
+            if ($this->request->getParam('action') === 'delete') {
+                return true;
+            }
         }
         return parent::isAuthorized($user);
     }
