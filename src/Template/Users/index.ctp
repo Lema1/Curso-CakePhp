@@ -24,7 +24,7 @@
                     <td>
                         <?= $this->Html->link('Ver', ['action' => 'view', $user->id], ['class' => 'btn btn-sm btn-info']) ?>
                         <?= $this->Html->link('Editar', ['action' => 'edit', $user->id], ['class' => 'btn btn-sm btn-primary']) ?>
-                        <?= $this->Form->postLink('Borrar', ['action' => 'delete', $user->id], ['confirm' => 'Eliminar Usuario ?', 'class' => 'btn btn-sm btn-danger']) ?>
+                        <?= $this->Form->postButton('Borrar', ['controller' => 'Users', 'action' => 'delete', $user->id], ['confirm' => 'Eliminar Usuario ?', 'class' => 'btn btn-sm btn-danger']) ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
